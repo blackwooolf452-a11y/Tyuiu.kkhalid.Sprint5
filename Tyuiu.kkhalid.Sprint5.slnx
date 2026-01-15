@@ -2,4 +2,7 @@
   <Project Path="Tyuiu.kkhalid.Sprint5.Task0.V3.Lib/Tyuiu.kkhalid.Sprint5.Task0.V3.Lib.csproj" />
   <Project Path="Tyuiu.kkhalid.Sprint5.Task0.V3.Test/Tyuiu.kkhalid.Sprint5.Task0.V3.Test.csproj" />
   <Project Path="Tyuiu.kkhalid.Sprint5.Task0.V3/Tyuiu.kkhalid.Sprint5.Task0.V3.csproj" />
+  <Project Path="Tyuiu.kkhalid.Sprint5.Task1.V17.Lib/Tyuiu.kkhalid.Sprint5.Task1.V17.Lib.csproj" />
+  <Project Path="Tyuiu.kkhalid.Sprint5.Task1.V17.Test/Tyuiu.kkhalid.Sprint5.Task1.V17.Test.csproj" />
+  <Project Path="Tyuiu.kkhalid.Sprint5.Task1.V17/Tyuiu.kkhalid.Sprint5.Task1.V17.csproj" />
 </Solution>
