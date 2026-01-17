@@ -8,4 +8,7 @@
   <Project Path="Tyuiu.kkhalid.Sprint5.Task2.V19.Lib/Tyuiu.kkhalid.Sprint5.Task2.V19.Lib.csproj" Id="aef93a75-434a-46c9-bc51-e2860ccdfcd6" />
   <Project Path="Tyuiu.kkhalid.Sprint5.Task2.V19.Test/Tyuiu.kkhalid.Sprint5.Task2.V19.Test.csproj" Id="c972d662-4989-4197-8c2f-51293f192570" />
   <Project Path="Tyuiu.kkhalid.Sprint5.Task2.V19/Tyuiu.kkhalid.Sprint5.Task2.V19.csproj" Id="c41d4c7e-41ca-4b2c-b82c-b3431a2ede02" />
+  <Project Path="Tyuiu.kkhalid.Sprint5.Task3.V12.Lib/Tyuiu.kkhalid.Sprint5.Task3.V12.Lib.csproj" Id="15c71139-69b1-4e80-b8dd-44b98cea2b1f" />
+  <Project Path="Tyuiu.kkhalid.Sprint5.Task3.V12.Test/Tyuiu.kkhalid.Sprint5.Task3.V12.Test.csproj" Id="6d6bdbdd-880f-4b25-aeb0-3602bf37c18c" />
+  <Project Path="Tyuiu.kkhalid.Sprint5.Task3.V12/Tyuiu.kkhalid.Sprint5.Task3.V12.csproj" Id="27910b5d-ce0d-4243-9887-db4a6898b4ab" />
 </Solution>
