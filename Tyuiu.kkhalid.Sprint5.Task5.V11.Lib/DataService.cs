@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using tyuiu.cources.programming.interfaces.Sprint5;
-
+﻿using System;
 using System.IO;
+using System.Globalization;
+using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Kkhalid.Sprint5.Task5.V11.Lib
 {
@@ -9,76 +9,78 @@ namespace Tyuiu.Kkhalid.Sprint5.Task5.V11.Lib
     {
         public double LoadFromDataFile(string path)
         {
-            // بررسی وجود فایل
             if (!File.Exists(path))
-            {
-                throw new FileNotFoundException($"Файл не найден по пути: {path}");
-            }
+                throw new FileNotFoundException($"Файл не найден: {path}");
 
             double product = 1;
-            bool hasOddInt = false;
+            bool foundOddInteger = false;
 
             using (StreamReader reader = new StreamReader(path))
             {
                 string line;
-                int lineNumber = 0;
 
                 while ((line = reader.ReadLine()) != null)
                 {
-                    lineNumber++;
                     line = line.Trim();
 
                     // رد کردن خطوط خالی
                     if (string.IsNullOrEmpty(line))
                         continue;
 
-                    try
+                    // حذف فضای خالی اضافی
+                    line = line.Replace(" ", "");
+
+                    // اگر خط حاوی چند عدد است (با جداکننده)
+                    string[] numbers = line.Split(new char[] { ' ', '\t', ';', ',' },
+                                                StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (string numStr in numbers)
                     {
-                        // جایگزینی کاما با نقطه
-                        string normalizedLine = line.Replace(',', '.');
-
-                        if (double.TryParse(normalizedLine, NumberStyles.Any, CultureInfo.InvariantCulture, out double number))
+                        if (TryParseNumber(numStr, out double number))
                         {
-                            // بررسی صحیح بودن (بدون جزء اعشاری)
-                            bool isInteger = Math.Abs(number - Math.Truncate(number)) < 0.000001;
-
-                            if (isInteger)
+                            // بررسی آیا عدد صحیح است
+                            if (IsInteger(number))
                             {
-                                int intValue = (int)number;
+                                long intValue = (long)Math.Truncate(number);
 
-                                // بررسی فرد بودن (هم برای مثبت هم منفی)
-                                if (Math.Abs(intValue) % 2 == 1)
+                                // بررسی فرد بودن (برای اعداد مثبت و منفی)
+                                if (intValue % 2 != 0)
                                 {
                                     product *= intValue;
-                                    hasOddInt = true;
-
-                                    // پیوند برای دیباگ (اختیاری)
-                                    // Console.WriteLine($"Найдено нечетное целое: {intValue}");
+                                    foundOddInteger = true;
                                 }
                             }
                         }
-                        else
-                        {
-                            // اگر عدد معتبر نیست، می‌توانیم خطا بدهیم یا نادیده بگیریم
-                            // Console.WriteLine($"Предупреждение: строка {lineNumber} содержит нечисловое значение: '{line}'");
-                        }
-                    }
-                    catch (FormatException)
-                    {
-                        // نادیده گرفتن خطوط با فرمت نامعتبر
-                        continue;
                     }
                 }
             }
 
-            if (!hasOddInt)
-            {
-                // اگر هیچ عدد صحیح فردی پیدا نشد
+            // اگر عددی پیدا نشد، 0 برگردان
+            if (!foundOddInteger)
                 return 0;
-            }
 
-            // گرد کردن به سه رقم اعشار
+            // گرد کردن به 3 رقم اعشار
             return Math.Round(product, 3);
+        }
+
+        private bool TryParseNumber(string str, out double result)
+        {
+            // جایگزینی کاما با نقطه
+            str = str.Replace(',', '.');
+
+            // اگر عدد با نقطه شروع می‌شود، صفر اضافه کن
+            if (str.StartsWith(".") || str.StartsWith(","))
+                str = "0" + str;
+
+            return double.TryParse(str, NumberStyles.Any,
+                                 CultureInfo.InvariantCulture, out result);
+        }
+
+        private bool IsInteger(double number)
+        {
+            // بررسی با دقت بیشتر
+            double epsilon = 1e-10;
+            return Math.Abs(number - Math.Truncate(number)) < epsilon;
         }
     }
 }
