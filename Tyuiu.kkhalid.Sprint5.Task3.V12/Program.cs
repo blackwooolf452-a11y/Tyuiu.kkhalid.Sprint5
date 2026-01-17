@@ -20,39 +20,43 @@ namespace Tyuiu.kkhalid.Sprint5.Task3.V12
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
             Console.WriteLine("***************************************************************************");
 
-            // Значение x = 3 по условию задачи
             int x = 3;
-
             Console.WriteLine("x = " + x);
+
             Console.WriteLine();
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
             Console.WriteLine("***************************************************************************");
 
-            // Создаем экземпляр сервиса
-            DataService ds = new DataService();
-
-            // Вычисляем результат
-            double result = ds.Calculate(x);
-
-            // Сохраняем в файл
-            string path = ds.SaveToFileTextData(x);
-
-            // Выводим информацию
-            Console.WriteLine("Функция: y = x^3 / (2 * (x + 5)^2)");
-            Console.WriteLine("При x = 3:");
-            Console.WriteLine("y = " + result);
-            Console.WriteLine();
-            Console.WriteLine("Файл: " + path);
-            Console.WriteLine("Создан!");
-
-            // Чтение и проверка сохраненных данных
-            Console.WriteLine();
-            Console.WriteLine("Проверка сохраненных данных:");
-            using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
+            try
             {
-                double savedValue = reader.ReadDouble();
-                Console.WriteLine("Прочитано из файла: " + savedValue);
+                DataService ds = new DataService();
+                string path = ds.SaveToFileTextData(x);
+
+                // Вычисляем значение для вывода
+                double result = Math.Pow(x, 3) / (2 * Math.Pow(x + 5, 2));
+                result = Math.Round(result, 3);
+
+                Console.WriteLine("Функция: y = x^3 / (2 * (x + 5)^2)");
+                Console.WriteLine("При x = 3:");
+                Console.WriteLine("y = " + result);
+                Console.WriteLine();
+                Console.WriteLine("Файл: " + path);
+                Console.WriteLine("Создан!");
+
+                // Проверяем содержимое файла
+                if (File.Exists(path))
+                {
+                    using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
+                    {
+                        double fileValue = reader.ReadDouble();
+                        Console.WriteLine("Значение в файле: " + fileValue);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка: " + ex.Message);
             }
 
             Console.WriteLine();
