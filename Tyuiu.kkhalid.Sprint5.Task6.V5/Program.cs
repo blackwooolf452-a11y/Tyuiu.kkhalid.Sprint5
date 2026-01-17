@@ -4,7 +4,7 @@ using Tyuiu.kkhalid.Sprint5.Task6.V5.Lib;
 
 namespace Tyuiu.kkhalid.Sprint5.Task6.V5
 {
-    class Program
+    class Program 
     {
         static void Main(string[] args)
         {

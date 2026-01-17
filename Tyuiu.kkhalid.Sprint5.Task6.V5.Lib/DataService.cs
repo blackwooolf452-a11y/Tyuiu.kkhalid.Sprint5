@@ -23,7 +23,7 @@ namespace Tyuiu.kkhalid.Sprint5.Task6.V5.Lib
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
-                    {
+                    { 
                         foreach (char c in line)
                         {
                             // Проверяем, является ли символ заглавной латинской буквой
