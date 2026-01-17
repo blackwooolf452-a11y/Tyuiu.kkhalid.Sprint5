@@ -26,44 +26,35 @@ namespace Tyuiu.kkhalid.Sprint5.Task1.V17
 
             string res = ds.SaveToFileTextData(startValue, stopValue);
 
-            // Чтение и вывод содержимого файла
+            // Чтение содержимого файла
+            string fileContent = File.ReadAllText(res);
+            string[] values = fileContent.Split('\n');
+
             Console.WriteLine("Файл: " + res);
             Console.WriteLine("Успешно создан!");
             Console.WriteLine();
 
             // Вывод таблицы на консоль
             Console.WriteLine("Таблица значений функции:");
-            Console.WriteLine("x\t\tF(x)");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("|    x   |   F(x)   |");
             Console.WriteLine("-------------------");
 
-            for (int x = startValue; x <= stopValue; x++)
+            for (int i = 0; i < values.Length; i++)
             {
-                try
-                {
-                    double denominator = Math.Sin(x) + 1;
-
-                    if (Math.Abs(denominator) < 0.000001)
-                    {
-                        Console.WriteLine($"{x}\t\t0.00");
-                    }
-                    else
-                    {
-                        double numerator = 2 * x - 1;
-                        double value = 2 * x - 4 + numerator / denominator;
-                        Console.WriteLine($"{x}\t\t{Math.Round(value, 2):F2}");
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine($"{x}\t\t0.00");
-                }
+                int x = startValue + i;
+                Console.WriteLine($"| {x,6} | {values[i],8} |");
             }
+            Console.WriteLine("-------------------");
+
+            // Также выводим в формате для проверки
+            Console.WriteLine("\nЗначения для проверки:");
+            Console.WriteLine(fileContent.Replace("\n", "\\n"));
 
             Console.WriteLine();
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* ВЫПОЛНЕНИЕ ЗАВЕРШЕНО                                                     *");
             Console.WriteLine("***************************************************************************");
-            Console.WriteLine("Нажмите любую клавишу для завершения...");
             Console.ReadKey();
         }
     }
