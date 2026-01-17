@@ -1,73 +1,53 @@
 ﻿using System;
 using System.IO;
-using Tyuiu.kkhalid.Sprint5.Task4.V21.Lib;
+using Tyuiu.kkhalid.Sprint5.Task3.V12.Lib;
 
-namespace Tyuiu.kkhalid.Sprint5.Task4.V21
+namespace Tyuiu.kkhalid.Sprint5.Task3.V12
 {
     class Program
     {
         static void Main(string[] args)
         {
+            Console.Title = "Спринт #5 | Выполнил: Халид К.В. | ИИПБ-23-3";
             Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* ИСПОЛНЕНИЕ ЗАДАНИЯ 4 | СПРИНТ 5 | ВАРИАНТ 21                           *");
-            Console.WriteLine("*-------------------------------------------------------------------------*");
+            Console.WriteLine("* Спринт #5                                                               *");
+            Console.WriteLine("* Тема: Потоковый метод записи данных в бинарный файл                    *");
+            Console.WriteLine("* Задание #3                                                              *");
+            Console.WriteLine("* Вариант #12                                                             *");
+            Console.WriteLine("* Выполнил: Халид К.В. | ИИПБ-23-3                                        *");
+            Console.WriteLine("***************************************************************************");
             Console.WriteLine("* УСЛОВИЕ:                                                                *");
-            Console.WriteLine("* Дан файл в котором есть вещественное значение.                          *");
-            Console.WriteLine("* Прочитать значение из файла и подставить вместо Х в формуле.            *");
-            Console.WriteLine("* y = x^3 * cos(x) + 2x                                                   *");
-            Console.WriteLine("* Вычислить значение по формуле                                           *");
-            Console.WriteLine("* (Полученное значение округлить до трёх знаков после запятой)            *");
-            Console.WriteLine("* и вернуть полученный результат на консоль.                              *");
-            Console.WriteLine("*                                                                         *");
+            Console.WriteLine("* Дано выражение. Вычислить его значение при x = 3/2, результат сохранить*");
+            Console.WriteLine("* в бинарный файл OutPutFileTask3.bin и вывести на консоль.              *");
+            Console.WriteLine("* Округлить до трёх знаков после запятой.                                 *");
+            Console.WriteLine("* y = x^3 / (2*(x+5)^2)                                                   *");
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
             Console.WriteLine("***************************************************************************");
 
-            // Создаем путь к файлу
-            string path = @"C:\DataSprint5\InPutDataFileTask4V21.txt";
+            // Задаем x
+            double x = 3.0 / 2.0;
+            Console.WriteLine($"x = {x}");
 
-            // Проверяем существует ли папка, если нет - создаем
-            string directory = Path.GetDirectoryName(path);
-            if (!Directory.Exists(directory))
+            // Вычисляем y
+            double y = Math.Pow(x, 3) / (2 * Math.Pow(x + 5, 2));
+            y = Math.Round(y, 3);
+
+            Console.WriteLine($"Значение выражения y = {y}");
+
+            // Сохраняем в бинарный файл
+            string path = Path.Combine(Path.GetTempPath(), "OutPutFileTask3.bin");
+
+            using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
             {
-                Directory.CreateDirectory(directory);
+                writer.Write(y);
             }
 
-            // Если файла нет, создаем с тестовым значением
-            if (!File.Exists(path))
-            {
-                File.WriteAllText(path, "3.5");
-                Console.WriteLine("Файл создан с тестовым значением: 3.5");
-            }
-
-            Console.WriteLine("Данные находятся в файле: " + path);
-            Console.WriteLine();
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
             Console.WriteLine("***************************************************************************");
-
-            try
-            {
-                DataService ds = new DataService();
-                double res = ds.LoadFromDataFile(path);
-
-                // Читаем значение x для вывода
-                double x = Convert.ToDouble(File.ReadAllText(path));
-
-                Console.WriteLine($"Значение x из файла: {x}");
-                Console.WriteLine($"Формула: y = x^3 * cos(x) + 2x");
-                Console.WriteLine($"Результат: {res}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка: " + ex.Message);
-                Console.WriteLine("Убедитесь, что файл существует и содержит корректное вещественное число.");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* ОПЕРАЦИЯ УСПЕШНО ЗАВЕРШЕНА                                             *");
-            Console.WriteLine("***************************************************************************");
+            Console.WriteLine($"Результат сохранен в файл: {path}");
+            Console.WriteLine($"y = {y}");
             Console.ReadKey();
         }
     }

@@ -1,62 +1,41 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tyuiu.kkhalid.Sprint5.Task4.V21.Lib;
+using Tyuiu.kkhalid.Sprint5.Task3.V12.Lib;
 
-namespace Tyuiu.kkhalid.Sprint5.Task4.V21.Test
+
+namespace Tyuiu.kkhalid.Sprint5.Task3.V12.Test
 {
     [TestClass]
     public class DataServiceTest
     {
         [TestMethod]
-        public void ValidLoadFromDataFile()
+        public void ValidSaveToFileBinaryData()
         {
             // Arrange
             DataService ds = new DataService();
-
-            // Создаем временный файл с тестовым значением
-            string tempFile = Path.GetTempFileName();
-            File.WriteAllText(tempFile, "2.5");
+            double x = 1.5; // 3/2 = 1.5
 
             // Act
-            double result = ds.LoadFromDataFile(tempFile);
+            string path = ds.SaveToFileBinaryData(x);
 
             // Assert
-            // Для x = 2.5: y = 2.5^3 * cos(2.5) + 2*2.5
-            // 15.625 * (-0.8011436155) + 5 = -12.5179 + 5 = -7.5179 ≈ -7.518
-            double expected = -7.518;
-            Assert.AreEqual(expected, result, 0.001);
+            Assert.IsTrue(File.Exists(path), "Файл не создан");
 
-            // Cleanup
-            File.Delete(tempFile);
-        }
-
-        [TestMethod]
-        public void CheckedExistsFile()
-        {
-            // Arrange
-            string path = @"C:\DataSprint5\InPutDataFileTask4V21.txt";
-
-            // Act
-            bool fileExists = File.Exists(path);
-
-            // Assert
-            // Если файл существует - тест пройден
-            // Если нет - проверяем, что можем его создать
-            if (!fileExists)
+            // Читаем из файла
+            double yFromFile;
+            using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
             {
-                // Пытаемся создать директорию и файл
-                string directory = Path.GetDirectoryName(path);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-                File.WriteAllText(path, "3.5");
-                fileExists = true;
+                yFromFile = reader.ReadDouble();
             }
 
-            Assert.IsTrue(fileExists);
-        }
+            // Ожидаемое значение
+            double expected = Math.Pow(x, 3) / (2 * Math.Pow(x + 5, 2));
+            expected = Math.Round(expected, 3);
 
+            Assert.AreEqual(expected, yFromFile, 0.001, "Значения не совпадают");
+
+            // Очистка тестового файла
+            File.Delete(path);
+        }
     }
 }

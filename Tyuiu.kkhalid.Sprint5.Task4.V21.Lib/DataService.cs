@@ -2,24 +2,29 @@
 using System.IO;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
-namespace Tyuiu.kkhalid.Sprint5.Task4.V21.Lib
+namespace Tyuiu.kkhalid.Sprint5.Task3.V12.Lib
 {
-    public class DataService : ISprint5Task4V21
+    public class DataService : ISprint5Task3V12
     {
-        public double LoadFromDataFile(string path)
+        public string SaveToFileBinaryData(double x)
         {
-            // Чтение значения x из файла
-            string strX = File.ReadAllText(path);
-            double x = Convert.ToDouble(strX);
-
-            // Вычисление по формуле y = x^3 * cos(x) + 2x
-            double y = Math.Pow(x, 3) * Math.Cos(x) + 2 * x;
-
-            // Округление до 3 знаков после запятой
+            double x = 1.5; // 3/2 = 1.5
+            double y = Math.Pow(x, 3) / (2 * Math.Pow(x + 5, 2));
             y = Math.Round(y, 3);
 
-            return y;
+            string path = Path.Combine(Path.GetTempPath(), "OutPutFileTask3.bin");
+
+            using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
+            {
+                writer.Write(y);
+            }
+
+            return path;
+        }
+
+        public string SaveToFileTextData(int x)
+        {
+            throw new NotImplementedException();
         }
     }
-
 }
